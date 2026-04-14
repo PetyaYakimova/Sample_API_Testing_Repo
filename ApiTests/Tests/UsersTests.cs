@@ -32,4 +32,18 @@ public class UsersTests
         users.Should().NotBeNull();
         users.Count.Should().BeGreaterThan(0);
     }
+
+    [Test]
+    public async Task CreateUser_ShouldReturnCreated()
+    {
+        var jsonBody = @"{
+        ""name"": ""John Doe"",
+        ""username"": ""johndoe"",
+        ""email"": ""john@test.com""
+    }";
+
+        var response = await _client.PostAsync("/users", jsonBody);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+    }
 }
