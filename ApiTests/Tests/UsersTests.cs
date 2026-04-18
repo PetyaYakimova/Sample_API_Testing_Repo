@@ -6,21 +6,13 @@ using System.Net;
 using System.Threading.Tasks;
 
 [TestFixture]
-public class UsersTests
+public class UsersTests : BaseTest
 {
-    private ApiClient _client;
-
-    [SetUp]
-    public void Setup()
-    {
-        _client = new ApiClient("https://jsonplaceholder.typicode.com");
-    }
-
     [Test]
     public async Task GetUsers_ShouldReturnUsersList()
     {
         // Act
-        var response = await _client.GetAsync("/users");
+        var response = await Client.GetAsync("/users");
 
         // Assert status
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -42,7 +34,7 @@ public class UsersTests
         ""email"": ""john@test.com""
     }";
 
-        var response = await _client.PostAsync("/users", jsonBody);
+        var response = await Client.PostAsync("/users", jsonBody);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
