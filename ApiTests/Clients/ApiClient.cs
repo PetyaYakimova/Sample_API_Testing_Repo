@@ -39,4 +39,15 @@ public class ApiClient
 
         return response;
     }
+
+    public async Task<HttpResponseMessage> PutAsync(string endpoint, string jsonBody)
+    {
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        return await _httpClient.PutAsync(endpoint, content);
+    }
+
+    public async Task<HttpResponseMessage> DeleteAsync(string endpoint)
+    {
+        return await _httpClient.DeleteAsync(endpoint);
+    }
 }
