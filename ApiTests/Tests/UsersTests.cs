@@ -38,4 +38,22 @@ public class UsersTests : BaseTest
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
+
+    [Test]
+    public async Task UpdateUser_ShouldReturnOk()
+    {
+        var jsonBody = @"{ ""name"": ""Updated Name"" }";
+
+        var response = await Client.PutAsync("/users/1", jsonBody);
+
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task DeleteUser_ShouldReturnOk()
+    {
+        var response = await Client.DeleteAsync("/users/1");
+
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
 }
