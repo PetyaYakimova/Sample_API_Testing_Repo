@@ -18,8 +18,7 @@ public class UsersTests : BaseTest
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsStringAsync();
-
-        var users = JsonConvert.DeserializeObject<List<User>>(content);
+        var users = ResponseHelper.Deserialize<List<User>>(content);
 
         users.Should().NotBeNull();
         users.Count.Should().BeGreaterThan(0);
