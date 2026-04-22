@@ -22,6 +22,11 @@ public class UsersTests : BaseTest
 
         users.Should().NotBeNull();
         users.Count.Should().BeGreaterThan(0);
+        users.Should().AllSatisfy(u =>
+        {
+            u.id.Should().BeGreaterThan(0);
+            u.email.Should().Contain("@");
+        });
     }
 
     [Test]
