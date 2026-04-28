@@ -1,15 +1,13 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 public class BaseTest
 {
     protected ApiClient Client;
 
     [SetUp]
-    public void BaseSetup()
+    public void Setup()
     {
-        var config = ConfigHelper.GetConfig();
-        var baseUrl = config["ApiSettings:BaseUrl"];
-
-        Client = new ApiClient(baseUrl);
+        var provider = ServiceProviderFactory.Create();
+        Client = provider.GetService<ApiClient>();
     }
 }
