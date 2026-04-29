@@ -10,6 +10,7 @@ public static class ServiceProviderFactory
         var baseUrl = config["ApiSettings:BaseUrl"];
 
         services.AddSingleton(new ApiClient(baseUrl));
+        services.AddSingleton<UserClient>();
 
         return services.BuildServiceProvider();
     }
