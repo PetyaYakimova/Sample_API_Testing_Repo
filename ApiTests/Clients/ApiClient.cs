@@ -27,7 +27,7 @@ public class ApiClient
 
         var response = await _httpClient.GetAsync(endpoint);
 
-        Console.WriteLine($"Status: {response.StatusCode}");
+        await LogResponse(response);
 
         return response;
     }
@@ -41,7 +41,7 @@ public class ApiClient
 
         var response = await _httpClient.PostAsync(endpoint, content);
 
-        Console.WriteLine($"Status: {response.StatusCode}");
+        await LogResponse(response);
 
         return response;
     }
@@ -49,11 +49,28 @@ public class ApiClient
     public async Task<HttpResponseMessage> PutAsync(string endpoint, string jsonBody)
     {
         var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-        return await _httpClient.PutAsync(endpoint, content);
+
+        var response = await _httpClient.PutAsync(endpoint, content);
+
+        await LogResponse(response);
+
+        return response;
     }
 
     public async Task<HttpResponseMessage> DeleteAsync(string endpoint)
     {
-        return await _httpClient.DeleteAsync(endpoint);
+        var response = await _httpClient.DeleteAsync(endpoint);
+
+        await LogResponse(response);
+
+        return response;
+    }
+
+    private async Task LogResponse(HttpResponseMessage response)
+    {
+        var content = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine($"Status: {response.StatusCode}");
+        Console.WriteLine($"Response: {content}");
     }
 }
