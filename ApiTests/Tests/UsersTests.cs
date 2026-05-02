@@ -32,13 +32,12 @@ public class UsersTests : BaseTest
     [Test]
     public async Task CreateUser_ShouldReturnCreated()
     {
-        var jsonBody = @"{
-        ""name"": ""John Doe"",
-        ""username"": ""johndoe"",
-        ""email"": ""john@test.com""
-    }";
+        var body = new UserBuilder()
+        .WithName("John")
+        .WithEmail("john@test.com")
+        .Build();
 
-        var response = await Client.PostAsync("/users", jsonBody);
+        var response = await UserClient.CreateUser(body);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
