@@ -7,18 +7,9 @@ public class ApiClient
 {
     private readonly HttpClient _httpClient;
 
-    public ApiClient(string baseUrl, string token = null)
+    public ApiClient(HttpClient httpClient)
     {
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri(baseUrl)
-        };
-
-        if (!string.IsNullOrEmpty(token))
-        {
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-        }
+        _httpClient = httpClient;
     }
 
     public async Task<HttpResponseMessage> GetAsync(string endpoint)
