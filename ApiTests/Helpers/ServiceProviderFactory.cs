@@ -1,7 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using Polly;
-using Polly.Extensions.Http;
 
 public static class ServiceProviderFactory
 {
