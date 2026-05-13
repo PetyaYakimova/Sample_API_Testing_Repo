@@ -39,6 +39,32 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task GetUser_ShouldReturnCorrectUser()
+    {
+        // Arrange
+        int userId = 1;
+
+        // Act
+        var response = await UserClient.GetUser(userId);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var user = JsonConvert.DeserializeObject<User>(content);
+
+        // Validate exact returned data
+        user.Should().NotBeNull();
+
+        user.id.Should().Be(userId);
+
+        user.name.Should().NotBeNullOrWhiteSpace();
+
+        user.email.Should().Contain("@");
+    }
+
+    [Test]
     public async Task CreateUser_ShouldReturnCreated()
     {
         var body = new UserBuilder()
