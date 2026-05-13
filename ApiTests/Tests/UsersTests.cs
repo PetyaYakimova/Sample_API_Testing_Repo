@@ -9,23 +9,32 @@ using System.Threading.Tasks;
 public class UsersTests : BaseTest
 {
     [Test]
-    public async Task GetUsers_ShouldReturnUsersList()
+    public async Task GetUsers_ShouldReturnValidUsers()
     {
         // Act
-        var response = await Client.GetAsync("/users");
+        var response = await UserClient.GetUsers();
 
         // Assert status
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
+        // Deserialize
         var content = await response.Content.ReadAsStringAsync();
-        var users = ResponseHelper.Deserialize<List<User>>(content);
 
+        var users = JsonConvert.DeserializeObject<List<User>>(content);
+
+        // Assert data
         users.Should().NotBeNull();
-        users.Count.Should().BeGreaterThan(0);
-        users.Should().AllSatisfy(u =>
+        users.Should().NotBeEmpty();
+
+        users.Should().AllSatisfy(user =>
         {
-            u.id.Should().BeGreaterThan(0);
-            u.email.Should().Contain("@");
+            user.id.Should().BeGreaterThan(0);
+
+            user.name.Should().NotBeNullOrWhiteSpace();
+
+            user.username.Should().NotBeNullOrWhiteSpace();
+
+            user.email.Should().Contain("@");
         });
     }
 
