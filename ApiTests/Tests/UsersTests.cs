@@ -65,16 +65,41 @@ public class UsersTests : BaseTest
     }
 
     [Test]
-    public async Task CreateUser_ShouldReturnCreated()
+    public async Task CreateUser_ShouldReturnCreatedUser()
     {
-        var body = new UserBuilder()
-        .WithName("John")
-        .WithEmail("john@test.com")
-        .Build();
+        // Arrange
+        var requestBody = new
+        {
+            name = "John Doe",
+            username = "johndoe",
+            email = "john@test.com"
+        };
 
-        var response = await UserClient.CreateUser(body);
+        var json = JsonConvert.SerializeObject(requestBody);
 
+        // Act
+        var response = await UserClient.CreateUser(json);
+
+        // Assert status
         response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+        // Deserialize response
+        var content = await response.Content.ReadAsStringAsync();
+
+        var createdUser = JsonConvert.DeserializeObject<User>(content);
+
+        // Validate returned values
+        createdUser.Should().NotBeNull();
+
+        createdUser.id.Should().BeGreaterThan(0);
+
+        createdUser.name.Should().Be(requestBody.name);
+
+        createdUser.username.Should().Be(requestBody.username);
+
+        createdUser.email.Should().Be(requestBody.email);
+
+        //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
     }
 
     [Test]
