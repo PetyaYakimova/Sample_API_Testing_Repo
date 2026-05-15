@@ -24,4 +24,9 @@ public class UserClient
     {
         return await _apiClient.PostAsync("/users", body);
     }
+
+    public async Task<HttpResponseMessage> UpdateUser(int id, string body)
+    {
+        return await _apiClient.PutAsync($"/users/{id}", body);
+    }
 }
