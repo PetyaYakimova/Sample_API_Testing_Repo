@@ -103,13 +103,43 @@ public class UsersTests : BaseTest
     }
 
     [Test]
-    public async Task UpdateUser_ShouldReturnOk()
+    public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
-        var jsonBody = @"{ ""name"": ""Updated Name"" }";
+        // Arrange
+        int userId = 1;
 
-        var response = await Client.PutAsync("/users/1", jsonBody);
+        var updatedRequest = new
+        {
+            id = userId,
+            name = "Updated User",
+            username = "updateduser",
+            email = "updated@test.com"
+        };
 
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var json = JsonConvert.SerializeObject(updatedRequest);
+
+        // Act
+        var response = await UserClient.UpdateUser(userId, json);
+
+        // Assert status
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var updatedUser = JsonConvert.DeserializeObject<User>(content);
+
+        // Validate updated values
+        updatedUser.Should().NotBeNull();
+
+        updatedUser.id.Should().Be(userId);
+
+        updatedUser.name.Should().Be(updatedRequest.name);
+
+        updatedUser.username.Should().Be(updatedRequest.username);
+
+        updatedUser.email.Should().Be(updatedRequest.email);
+
+        //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
     }
 
     [Test]
