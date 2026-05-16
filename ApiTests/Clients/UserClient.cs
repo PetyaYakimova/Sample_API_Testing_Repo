@@ -29,4 +29,9 @@ public class UserClient
     {
         return await _apiClient.PutAsync($"/users/{id}", body);
     }
+
+    public async Task<HttpResponseMessage> DeleteUser(int id)
+    {
+        return await _apiClient.DeleteAsync($"/users/{id}");
+    }
 }
