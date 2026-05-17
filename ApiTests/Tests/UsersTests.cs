@@ -143,10 +143,21 @@ public class UsersTests : BaseTest
     }
 
     [Test]
-    public async Task DeleteUser_ShouldReturnOk()
+    public async Task DeleteUser_ShouldReturnEmptyResponse()
     {
-        var response = await Client.DeleteAsync("/users/1");
+        // Arrange
+        int userId = 1;
 
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        // Act
+        var response = await UserClient.DeleteUser(userId);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        content.Should().Be("{}");
+
+        //Follow up assertion with trying to get the user cannot be made, since the API is fake and does not persist data.
     }
 }
