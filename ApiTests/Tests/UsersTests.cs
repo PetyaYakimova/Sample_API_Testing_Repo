@@ -50,6 +50,7 @@ public class UsersTests : BaseTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
         var content = await response.Content.ReadAsStringAsync();
 
