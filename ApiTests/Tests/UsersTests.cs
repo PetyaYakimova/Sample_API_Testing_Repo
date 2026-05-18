@@ -16,6 +16,7 @@ public class UsersTests : BaseTest
 
         // Assert status
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
         // Deserialize
         var content = await response.Content.ReadAsStringAsync();
