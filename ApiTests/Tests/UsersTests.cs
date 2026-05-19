@@ -14,7 +14,7 @@ public class UsersTests : BaseTest
         // Act
         var response = await UserClient.GetUsers();
 
-        // Assert status
+        // Assert status and content type
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
@@ -48,7 +48,7 @@ public class UsersTests : BaseTest
         // Act
         var response = await UserClient.GetUser(userId);
 
-        // Assert
+        // Assert status and content type
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
@@ -82,8 +82,9 @@ public class UsersTests : BaseTest
         // Act
         var response = await UserClient.CreateUser(json);
 
-        // Assert status
+        // Assert status and content type
         response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
         // Deserialize response
         var content = await response.Content.ReadAsStringAsync();
@@ -123,8 +124,9 @@ public class UsersTests : BaseTest
         // Act
         var response = await UserClient.UpdateUser(userId, json);
 
-        // Assert status
+        // Assert status and content type
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
         var content = await response.Content.ReadAsStringAsync();
 
@@ -153,8 +155,9 @@ public class UsersTests : BaseTest
         // Act
         var response = await UserClient.DeleteUser(userId);
 
-        // Assert
+        // Assert status and content type
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.Content.Headers.ContentType.MediaType.Should().Be("application/json");
 
         var content = await response.Content.ReadAsStringAsync();
 
