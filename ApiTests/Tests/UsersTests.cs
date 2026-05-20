@@ -67,6 +67,19 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task GetUser_WithInvalidId_ShouldReturnNotFound()
+    {
+        // Arrange
+        int invalidId = 99999;
+
+        // Act
+        var response = await UserClient.GetUser(invalidId);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Test]
     public async Task CreateUser_ShouldReturnCreatedUser()
     {
         // Arrange
