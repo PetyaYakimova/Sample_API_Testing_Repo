@@ -132,6 +132,19 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithEmptyBody_ShouldHandleRequest()
+    {
+        // Arrange
+        string emptyBody = "";
+
+        // Act
+        var response = await Client.PostAsync("/users", emptyBody);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
