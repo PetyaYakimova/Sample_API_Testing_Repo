@@ -158,6 +158,24 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithInvalidEmailType_ShouldHandleValidation()
+    {
+        // Arrange
+        string invalidBody = @"
+        {
+            ""name"": ""John"",
+            ""username"": ""john123"",
+            ""email"": 12345
+        }";
+
+        // Act
+        var response = await Client.PostAsync("/users", invalidBody);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
