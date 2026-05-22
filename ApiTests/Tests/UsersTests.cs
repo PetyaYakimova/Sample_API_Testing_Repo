@@ -145,6 +145,19 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithMalformedJson_ShouldFailGracefully()
+    {
+        // Arrange
+        string invalidJson = "{ name: John ";
+
+        // Act
+        var response = await Client.PostAsync("/users", invalidJson);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
