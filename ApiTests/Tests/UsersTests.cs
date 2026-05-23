@@ -176,6 +176,23 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithoutEmail_ShouldHandleValidation()
+    {
+        // Arrange
+        string invalidBody = @"
+        {
+            ""name"": ""John"",
+            ""username"": ""john123""
+        }";
+
+        // Act
+        var response = await Client.PostAsync("/users", invalidBody);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
