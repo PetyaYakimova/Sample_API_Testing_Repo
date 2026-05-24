@@ -193,6 +193,26 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithVeryLongName_ShouldHandleRequest()
+    {
+        // Arrange
+        string longName = new string('A', 10000);
+
+        string body = $@"
+        {{
+            ""name"": ""{longName}"",
+            ""username"": ""test"",
+            ""email"": ""test@test.com""
+        }}";
+
+        // Act
+        var response = await Client.PostAsync("/users", body);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
