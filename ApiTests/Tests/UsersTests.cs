@@ -272,4 +272,20 @@ public class UsersTests : BaseTest
 
         //Follow up assertion with trying to get the user cannot be made, since the API is fake and does not persist data.
     }
+
+    [Test]
+    public async Task PatchUnsupportedEndpoint_ShouldReturnError()
+    {
+        // Arrange
+        var request = new HttpRequestMessage(HttpMethod.Patch, "/users/1");
+
+        // Act
+        var response = await new HttpClient
+        {
+            BaseAddress = new Uri("https://jsonplaceholder.typicode.com")
+        }.SendAsync(request);
+
+        // Assert
+        response.IsSuccessStatusCode.Should().BeFalse();
+    }
 }
