@@ -40,6 +40,16 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task GetUsers_WithInvalidQueryParameter_ShouldHandleRequest()
+    {
+        // Act
+        var response = await Client.GetAsync("/users?invalidParam=test");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Test]
     public async Task GetUser_ShouldReturnCorrectUser()
     {
         // Arrange
