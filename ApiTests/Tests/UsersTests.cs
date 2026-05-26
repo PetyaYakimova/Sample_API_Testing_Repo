@@ -223,6 +223,24 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithNullValues_ShouldHandleRequest()
+    {
+        // Arrange
+        string body = @"
+        {
+            ""name"": null,
+            ""username"": null,
+            ""email"": null
+        }";
+
+        // Act
+        var response = await Client.PostAsync("/users", body);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
