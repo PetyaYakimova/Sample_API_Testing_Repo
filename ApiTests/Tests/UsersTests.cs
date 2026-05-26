@@ -298,4 +298,24 @@ public class UsersTests : BaseTest
         // Assert
         response.IsSuccessStatusCode.Should().BeFalse();
     }
+
+    [Test]
+    public async Task Request_ShouldTimeout_WhenTimeoutTooSmall()
+    {
+        // Arrange
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri("https://jsonplaceholder.typicode.com"),
+            Timeout = TimeSpan.FromMilliseconds(1)
+        };
+
+        // Act
+        Func<Task> act = async () =>
+        {
+            await httpClient.GetAsync("/users");
+        };
+
+        // Assert
+        await act.Should().ThrowAsync<TaskCanceledException>();
+    }
 }
