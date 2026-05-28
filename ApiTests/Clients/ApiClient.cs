@@ -48,6 +48,22 @@ public class ApiClient
         return response;
     }
 
+    public async Task<HttpResponseMessage> PatchAsync(string endpoint, string jsonBody)
+    {
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(new HttpMethod("PATCH"), endpoint)
+        {
+            Content = content
+        };
+
+        var response = await _httpClient.SendAsync(request);
+
+        await LogResponse(response);
+
+        return response;
+    }
+
     public async Task<HttpResponseMessage> DeleteAsync(string endpoint)
     {
         var response = await _httpClient.DeleteAsync(endpoint);
