@@ -259,6 +259,24 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task CreateUser_WithXssPayload_ShouldHandleSafely()
+    {
+        // Arrange
+        string body = @"
+        {
+            ""name"": ""<script>alert('xss')</script>"",
+            ""username"": ""test"",
+            ""email"": ""xss@test.com""
+        }";
+
+        // Act
+        var response = await Client.PostAsync("/users", body);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task UpdateUser_ShouldReturnUpdatedUser()
     {
         // Arrange
