@@ -30,6 +30,11 @@ public class UserClient
         return await _apiClient.PutAsync($"/users/{id}", body);
     }
 
+    public async Task<HttpResponseMessage> PatchUser(int id, string body)
+    {
+        return await _apiClient.PatchAsync($"/users/{id}", body);
+    }
+
     public async Task<HttpResponseMessage> DeleteUser(int id)
     {
         return await _apiClient.DeleteAsync($"/users/{id}");
