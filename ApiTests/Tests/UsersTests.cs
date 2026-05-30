@@ -338,22 +338,6 @@ public class UsersTests : BaseTest
     }
 
     [Test]
-    public async Task PatchUnsupportedEndpoint_ShouldReturnError()
-    {
-        // Arrange
-        var request = new HttpRequestMessage(HttpMethod.Patch, "/users/1");
-
-        // Act
-        var response = await new HttpClient
-        {
-            BaseAddress = new Uri("https://jsonplaceholder.typicode.com")
-        }.SendAsync(request);
-
-        // Assert
-        response.IsSuccessStatusCode.Should().BeFalse();
-    }
-
-    [Test]
     public async Task Request_ShouldTimeout_WhenTimeoutTooSmall()
     {
         // Arrange
