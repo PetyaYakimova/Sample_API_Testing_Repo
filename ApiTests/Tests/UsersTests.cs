@@ -318,6 +318,41 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task PatchUser_ShouldUpdateOnlyProvidedFields()
+    {
+        // Arrange
+        int userId = 1;
+
+        var patchRequest = new
+        {
+            name = "Patched Name"
+        };
+
+        var json = JsonConvert.SerializeObject(patchRequest);
+
+        // Act
+        var response = await UserClient.PatchUser(userId, json);
+
+        // Assert status
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // Deserialize response
+        var content = await response.Content.ReadAsStringAsync();
+
+        var patchedUser = JsonConvert.DeserializeObject<User>(content);
+
+        // Validate patched field
+        patchedUser.Should().NotBeNull();
+
+        patchedUser.name.Should().Be("Patched Name");
+
+        // Validate untouched fields still exist
+        patchedUser.id.Should().Be(userId);
+
+        //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
+    }
+
+    [Test]
     public async Task DeleteUser_ShouldReturnEmptyResponse()
     {
         // Arrange
