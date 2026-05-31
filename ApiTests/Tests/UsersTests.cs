@@ -353,6 +353,38 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task PatchUser_ShouldUpdateEmailOnly()
+    {
+        // Arrange
+        int userId = 1;
+
+        var patchRequest = new
+        {
+            email = "patched@test.com"
+        };
+
+        var json = JsonConvert.SerializeObject(patchRequest);
+
+        // Act
+        var response = await UserClient.PatchUser(userId, json);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var patchedUser = JsonConvert.DeserializeObject<User>(content);
+
+        patchedUser.Should().NotBeNull();
+
+        patchedUser.email.Should().Be("patched@test.com");
+
+        patchedUser.id.Should().Be(userId);
+        
+        //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
+    }
+
+    [Test]
     public async Task DeleteUser_ShouldReturnEmptyResponse()
     {
         // Arrange
