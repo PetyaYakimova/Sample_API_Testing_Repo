@@ -405,6 +405,21 @@ public class UsersTests : BaseTest
     }
 
     [Test]
+    public async Task PatchUser_WithMalformedJson_ShouldNotReturnServerError()
+    {
+        // Arrange
+        int userId = 1;
+
+        string invalidJson = "{ name: ";
+
+        // Act
+        var response = await UserClient.PatchUser(userId, invalidJson);
+
+        // Assert
+        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+    }
+
+    [Test]
     public async Task DeleteUser_ShouldReturnEmptyResponse()
     {
         // Arrange
