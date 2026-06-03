@@ -416,7 +416,7 @@ public class UsersTests : BaseTest
         var response = await UserClient.PatchUser(userId, invalidJson);
 
         // Assert
-        response.StatusCode.Should().NotBe(HttpStatusCode.InternalServerError);
+        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 
     [Test]
