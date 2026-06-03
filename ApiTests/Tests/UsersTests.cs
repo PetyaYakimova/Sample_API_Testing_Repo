@@ -405,7 +405,7 @@ public class UsersTests : BaseTest
     }
 
     [Test]
-    public async Task PatchUser_WithMalformedJson_ShouldNotReturnServerError()
+    public async Task PatchUser_WithMalformedJson_ShouldFail()
     {
         // Arrange
         int userId = 1;
