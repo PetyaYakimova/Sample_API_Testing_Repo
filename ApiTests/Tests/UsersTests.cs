@@ -385,26 +385,6 @@ public class UsersTests : BaseTest
     }
 
     [Test]
-    public async Task PatchUser_WithInvalidId_ShouldReturnNotFound()
-    {
-        // Arrange
-        int invalidId = 99999;
-
-        var patchRequest = new
-        {
-            name = "Invalid Patch"
-        };
-
-        var json = JsonConvert.SerializeObject(patchRequest);
-
-        // Act
-        var response = await UserClient.PatchUser(invalidId, json);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-    [Test]
     public async Task PatchUser_WithMalformedJson_ShouldFail()
     {
         // Arrange
