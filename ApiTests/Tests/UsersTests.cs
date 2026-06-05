@@ -1,9 +1,6 @@
-﻿using NUnit.Framework;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 
 [TestFixture]
 public class UsersTests : BaseTest
