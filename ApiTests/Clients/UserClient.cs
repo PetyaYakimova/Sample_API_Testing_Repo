@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-
-public class UserClient
+﻿public class UserClient
 {
     private readonly ApiClient _apiClient;
 
