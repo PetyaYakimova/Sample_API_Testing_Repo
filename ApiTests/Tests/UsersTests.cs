@@ -26,13 +26,13 @@ public class UsersTests : BaseTest
 
         users.Should().AllSatisfy(user =>
         {
-            user.id.Should().BeGreaterThan(0);
+            user.Id.Should().BeGreaterThan(0);
 
-            user.name.Should().NotBeNullOrWhiteSpace();
+            user.Name.Should().NotBeNullOrWhiteSpace();
 
-            user.username.Should().NotBeNullOrWhiteSpace();
+            user.Username.Should().NotBeNullOrWhiteSpace();
 
-            user.email.Should().Contain("@");
+            user.Email.Should().Contain("@");
         });
     }
 
@@ -66,11 +66,11 @@ public class UsersTests : BaseTest
         // Validate exact returned data
         user.Should().NotBeNull();
 
-        user.id.Should().Be(userId);
+        user.Id.Should().Be(userId);
 
-        user.name.Should().NotBeNullOrWhiteSpace();
+        user.Name.Should().NotBeNullOrWhiteSpace();
 
-        user.email.Should().Contain("@");
+        user.Email.Should().Contain("@");
     }
 
     [Test]
@@ -127,13 +127,13 @@ public class UsersTests : BaseTest
         // Validate returned values
         createdUser.Should().NotBeNull();
 
-        createdUser.id.Should().BeGreaterThan(0);
+        createdUser.Id.Should().BeGreaterThan(0);
 
-        createdUser.name.Should().Be(requestBody.name);
+        createdUser.Name.Should().Be(requestBody.name);
 
-        createdUser.username.Should().Be(requestBody.username);
+        createdUser.Username.Should().Be(requestBody.username);
 
-        createdUser.email.Should().Be(requestBody.email);
+        createdUser.Email.Should().Be(requestBody.email);
 
         //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
     }
@@ -303,13 +303,13 @@ public class UsersTests : BaseTest
         // Validate updated values
         updatedUser.Should().NotBeNull();
 
-        updatedUser.id.Should().Be(userId);
+        updatedUser.Id.Should().Be(userId);
 
-        updatedUser.name.Should().Be(updatedRequest.name);
+        updatedUser.Name.Should().Be(updatedRequest.name);
 
-        updatedUser.username.Should().Be(updatedRequest.username);
+        updatedUser.Username.Should().Be(updatedRequest.username);
 
-        updatedUser.email.Should().Be(updatedRequest.email);
+        updatedUser.Email.Should().Be(updatedRequest.email);
 
         //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
     }
@@ -341,10 +341,10 @@ public class UsersTests : BaseTest
         // Validate patched field
         patchedUser.Should().NotBeNull();
 
-        patchedUser.name.Should().Be("Patched Name");
+        patchedUser.Name.Should().Be("Patched Name");
 
         // Validate untouched fields still exist
-        patchedUser.id.Should().Be(userId);
+        patchedUser.Id.Should().Be(userId);
 
         //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
     }
@@ -374,9 +374,9 @@ public class UsersTests : BaseTest
 
         patchedUser.Should().NotBeNull();
 
-        patchedUser.email.Should().Be("patched@test.com");
+        patchedUser.Email.Should().Be("patched@test.com");
 
-        patchedUser.id.Should().Be(userId);
+        patchedUser.Id.Should().Be(userId);
         
         //Follow up assertion with getting the user cannot be made, since the API is fake and does not persist data.
     }
