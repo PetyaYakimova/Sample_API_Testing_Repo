@@ -6,4 +6,29 @@ using System.Net;
 
 public class PostsTests : BaseTest
 {
+    [Test]
+    public async Task GetPosts_ShouldReturnValidPosts()
+    {
+        var response = await PostClient.GetPosts();
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+        posts.Should().NotBeNull();
+        posts.Should().NotBeEmpty();
+
+        posts.Should().AllSatisfy(post =>
+        {
+            post.Id.Should().BeGreaterThan(0);
+
+            post.UserId.Should().BeGreaterThan(0);
+
+            post.Title.Should().NotBeNullOrWhiteSpace();
+
+            post.Body.Should().NotBeNullOrWhiteSpace();
+        });
+    }
 }
