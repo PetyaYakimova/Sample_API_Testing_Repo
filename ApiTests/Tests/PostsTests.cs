@@ -31,4 +31,28 @@ public class PostsTests : BaseTest
             post.Body.Should().NotBeNullOrWhiteSpace();
         });
     }
+
+    [Test]
+    public async Task GetPost_ShouldReturnCorrectPost()
+    {
+        int postId = 1;
+
+        var response = await PostClient.GetPost(postId);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var post = JsonConvert.DeserializeObject<Post>(content);
+
+        post.Should().NotBeNull();
+
+        post.Id.Should().Be(postId);
+
+        post.UserId.Should().BeGreaterThan(0);
+
+        post.Title.Should().NotBeNullOrWhiteSpace();
+
+        post.Body.Should().NotBeNullOrWhiteSpace();
+    }
 }
