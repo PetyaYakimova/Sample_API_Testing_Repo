@@ -55,4 +55,22 @@ public class PostsTests : BaseTest
 
         post.Body.Should().NotBeNullOrWhiteSpace();
     }
+
+    [Test]
+    public async Task GetPostsByUser_ShouldReturnOnlyRequestedUserPosts()
+    {
+        int userId = 1;
+
+        var response = await PostClient.GetPostsByUser(userId);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+        posts.Should().NotBeEmpty();
+
+        posts.Should().OnlyContain(p => p.UserId == userId);
+    }
 }
