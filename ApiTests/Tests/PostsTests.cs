@@ -73,4 +73,35 @@ public class PostsTests : BaseTest
 
         posts.Should().OnlyContain(p => p.UserId == userId);
     }
+
+    [Test]
+    public async Task CreatePost_ShouldReturnCreatedPost()
+    {
+        var request = new
+        {
+            userId = 1,
+            title = "My New Post",
+            body = "Post Content"
+        };
+
+        var json = JsonConvert.SerializeObject(request);
+
+        var response = await PostClient.CreatePost(json);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var createdPost = JsonConvert.DeserializeObject<Post>(content);
+
+        createdPost.Should().NotBeNull();
+
+        createdPost.Id.Should().BeGreaterThan(0);
+
+        createdPost.UserId.Should().Be(request.userId);
+
+        createdPost.Title.Should().Be(request.title);
+
+        createdPost.Body.Should().Be(request.body);
+    }
 }
