@@ -128,8 +128,33 @@ public class PostsTests : BaseTest
 
         var post = JsonConvert.DeserializeObject<Post>(content);
 
-        post.title.Should().Be(request.title);
+        post.Title.Should().Be(request.title);
 
-        post.body.Should().Be(request.body);
+        post.Body.Should().Be(request.body);
+    }
+
+    [Test]
+    public async Task PatchPost_ShouldUpdateTitleOnly()
+    {
+        int postId = 1;
+
+        var request = new
+        {
+            title = "Patched Title"
+        };
+
+        var json = JsonConvert.SerializeObject(request);
+
+        var response = await PostClient.PatchPost(postId, json);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var post = JsonConvert.DeserializeObject<Post>(content);
+
+        post.Title.Should().Be("Patched Title");
+
+        post.Id.Should().Be(postId);
     }
 }
