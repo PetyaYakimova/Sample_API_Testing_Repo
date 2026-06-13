@@ -157,4 +157,18 @@ public class PostsTests : BaseTest
 
         post.Id.Should().Be(postId);
     }
+
+    [Test]
+    public async Task DeletePost_ShouldReturnEmptyObject()
+    {
+        int postId = 1;
+
+        var response = await PostClient.DeletePost(postId);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        content.Should().Be("{}");
+    }
 }
