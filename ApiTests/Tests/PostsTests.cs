@@ -104,4 +104,32 @@ public class PostsTests : BaseTest
 
         createdPost.Body.Should().Be(request.body);
     }
+
+    [Test]
+    public async Task UpdatePost_ShouldReturnUpdatedPost()
+    {
+        int postId = 1;
+
+        var request = new
+        {
+            id = postId,
+            userId = 1,
+            title = "Updated Title",
+            body = "Updated Body"
+        };
+
+        var json = JsonConvert.SerializeObject(request);
+
+        var response = await PostClient.UpdatePost(postId, json);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var post = JsonConvert.DeserializeObject<Post>(content);
+
+        post.title.Should().Be(request.title);
+
+        post.body.Should().Be(request.body);
+    }
 }
