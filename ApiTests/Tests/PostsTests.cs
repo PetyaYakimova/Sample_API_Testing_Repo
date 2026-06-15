@@ -167,6 +167,19 @@ public class PostsTests : BaseTest
     }
 
     [Test]
+    public async Task PatchPost_WithInvalidId_ShouldReturnNotFound()
+    {
+        var json = JsonConvert.SerializeObject(new
+        {
+            title = "Invalid"
+        });
+
+        var response = await PostClient.PatchPost(99999, json);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Test]
     public async Task DeletePost_ShouldReturnEmptyObject()
     {
         int postId = 1;
