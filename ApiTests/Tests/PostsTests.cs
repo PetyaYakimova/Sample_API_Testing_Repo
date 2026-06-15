@@ -57,6 +57,14 @@ public class PostsTests : BaseTest
     }
 
     [Test]
+    public async Task GetPost_WithInvalidId_ShouldReturnNotFound()
+    {
+        var response = await PostClient.GetPost(99999);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Test]
     public async Task GetPostsByUser_ShouldReturnOnlyRequestedUserPosts()
     {
         int userId = 1;
