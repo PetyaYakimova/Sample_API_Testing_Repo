@@ -83,6 +83,20 @@ public class PostsTests : BaseTest
     }
 
     [Test]
+    public async Task GetPostsByNonExistingUser_ShouldReturnEmptyCollection()
+    {
+        var response = await PostClient.GetPostsByUser(99999);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+        posts.Should().BeEmpty();
+    }
+
+    [Test]
     public async Task CreatePost_ShouldReturnCreatedPost()
     {
         var request = new
