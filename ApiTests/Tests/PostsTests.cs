@@ -73,6 +73,16 @@ public class PostsTests : BaseTest
     }
 
     [Test]
+    public async Task GetPost_ShouldReturnJsonContentType()
+    {
+        var response = await PostClient.GetPost(1);
+
+        response.Content.Headers.ContentType.MediaType
+            .Should()
+            .Be("application/json");
+    }
+
+    [Test]
     public async Task GetPost_WithInvalidId_ShouldReturnNotFound()
     {
         var response = await PostClient.GetPost(99999);
