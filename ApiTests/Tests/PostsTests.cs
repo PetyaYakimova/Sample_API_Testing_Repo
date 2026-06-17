@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net;
 
 [TestFixture]
@@ -54,6 +55,21 @@ public class PostsTests : BaseTest
         post.Title.Should().NotBeNullOrWhiteSpace();
 
         post.Body.Should().NotBeNullOrWhiteSpace();
+    }
+
+    [Test]
+    public async Task GetPost_ShouldContainExpectedFields()
+    {
+        var response = await PostClient.GetPost(1);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var post = JObject.Parse(content);
+
+        post["userId"].Should().NotBeNull();
+        post["id"].Should().NotBeNull();
+        post["title"].Should().NotBeNull();
+        post["body"].Should().NotBeNull();
     }
 
     [Test]
