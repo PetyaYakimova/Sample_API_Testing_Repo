@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.Net;
 
 [TestFixture]
@@ -80,6 +81,18 @@ public class PostsTests : BaseTest
         response.Content.Headers.ContentType.MediaType
             .Should()
             .Be("application/json");
+    }
+
+    [Test]
+    public async Task GetPost_ShouldRespondWithinTwoSeconds()
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        await PostClient.GetPost(1);
+
+        stopwatch.Stop();
+
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2000);
     }
 
     [Test]
