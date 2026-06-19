@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Net;
+using System.Xml.Linq;
 
 [TestFixture]
 
@@ -149,6 +150,16 @@ public class PostsTests : BaseTest
         posts.Should().BeEmpty();
     }
 
+    [TestCase(0)]
+    [TestCase(-1)]
+    [TestCase(99999)]
+    public async Task GetPostWithInvalidPostIds_ShouldReturnNotFound(int id)
+    {
+        var response = await PostClient.GetPost(id);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
     [Test]
     public async Task CreatePost_ShouldReturnCreatedPost()
     {
@@ -259,4 +270,6 @@ public class PostsTests : BaseTest
 
         content.Should().Be("{}");
     }
+
+
 }
