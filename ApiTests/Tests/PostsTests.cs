@@ -96,6 +96,20 @@ public class PostsTests : BaseTest
     }
 
     [Test]
+    public async Task PostOwner_ShouldExist()
+    {
+        var postResponse = await PostClient.GetPost(1);
+
+        var postContent = await postResponse.Content.ReadAsStringAsync();
+
+        var post = JsonConvert.DeserializeObject<Post>(postContent);
+
+        var userResponse = await UserClient.GetUser(post.UserId);
+
+        userResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Test]
     public async Task GetPost_WithInvalidId_ShouldReturnNotFound()
     {
         var response = await PostClient.GetPost(99999);
