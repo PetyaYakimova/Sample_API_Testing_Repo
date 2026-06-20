@@ -241,6 +241,8 @@ public class PostsTests : BaseTest
 
         post.Title.Should().Be("Patched Title");
 
+        post.Body.Should().NotBeNullOrWhiteSpace();
+
         post.Id.Should().Be(postId);
     }
 
