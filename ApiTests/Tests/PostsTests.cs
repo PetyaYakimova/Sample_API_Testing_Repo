@@ -169,7 +169,7 @@ public class PostsTests : BaseTest
 
         var posts = JsonConvert.DeserializeObject<List<Post>>(content);
 
-        posts.Select(p => p.id)
+        posts.Select(p => p.Id)
              .Should()
              .OnlyHaveUniqueItems();
     }
