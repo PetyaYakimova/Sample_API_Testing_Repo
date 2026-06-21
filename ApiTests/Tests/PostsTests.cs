@@ -161,6 +161,20 @@ public class PostsTests : BaseTest
     }
 
     [Test]
+    public async Task AllPosts_ShouldHaveUniqueIds()
+    {
+        var response = await PostClient.GetPosts();
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        var posts = JsonConvert.DeserializeObject<List<Post>>(content);
+
+        posts.Select(p => p.id)
+             .Should()
+             .OnlyHaveUniqueItems();
+    }
+
+    [Test]
     public async Task CreatePost_ShouldReturnCreatedPost()
     {
         var request = new
