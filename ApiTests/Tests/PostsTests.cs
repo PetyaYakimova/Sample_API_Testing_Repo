@@ -161,7 +161,7 @@ public class PostsTests : BaseTest
     }
 
     [Test]
-    public async Task AllPosts_ShouldHaveUniqueIds()
+    public async Task GetAllPosts_ShouldHaveUniqueIds()
     {
         var response = await PostClient.GetPosts();
 
